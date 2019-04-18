@@ -16,8 +16,10 @@ class PlayerClass
     private static MediaPlayer mediaPlayer;
     private Context context;
     private String[] nameTable;
-    SongData songData;
-    private byte currentPosition[][];
+    private SongData songData;
+    private byte currentChapter;
+    private byte currentSong;
+    private boolean isPlaying;
 
     PlayerClass(Context context)
     {
@@ -26,7 +28,10 @@ class PlayerClass
 
         nameTable = FileClass.loadSonglist(context); //list of all the songs in the directory
         songData = FileClass.loadSongOrder(context); //book title, chapter names, song order
-        currentPosition = new byte[songData.getSongOrder().length][songData.getSongOrder()[0].length]; //TODO: make it a truly a non-rectangular table
+        //currentPosition = new byte[songData.getSongOrder().length][songData.getSongOrder()[0].length]; //wtf waas that lol //TODO: make it a truly a non-rectangular table
+        currentChapter = 1;
+        currentSong = 1;
+        isPlaying = false;
 
         initPlayer(8);
     }
@@ -100,19 +105,29 @@ class PlayerClass
 
     void next()
     {
+        if(songData.getSongOrder()[currentChapter+1][0]!=0) //check if it's a last chapter
+        {
+            if(songData.getSongOrder()[currentChapter][currentSong+1]!=0) //check if it's a last song in chapter
+                currentSong++;
+        }
+        if(isPlaying)
+        {
+            reset();
+            play();
+        }
+        else reset();
+    }
+
+    void reset() //go to chapter 1 song 1
+    {
         for(int i=0;i<70;i++)
         {
             for(int j=0;j<20;j++)
             {
-                System.out.print(songData.songOrder[i][j]);
+                System.out.print(songData.getSongOrder()[i][j]);
             }
             System.out.println();
         }
-    }
-
-    void reset()
-    {
-
     }
 
     void prevChapter()

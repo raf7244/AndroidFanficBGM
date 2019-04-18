@@ -18,35 +18,35 @@ public class MainActivity extends AppCompatActivity
 
     public void playButton(View v)
     {
-        player.selectSong();
+        player.play();
     }
 
     public void nextButton(View v)
     {
-        player.play();
+        player.next();
     }
 
     public void resetButton(View v)
     {
-        player.next();
+        player.reset();
     }
 
     public void prevChapterButton(View v)
     {
-
+        player.nextChapter();
     }
     public void nextChapterButton(View v)
     {
-
+        player.prevChapter();
     }
     public void prevSongButton(View v)
     {
-
+        player.prevSong();
     }
 
     public void nextSongButton(View v)
     {
-
+        player.nextSong();
     }
 
 
