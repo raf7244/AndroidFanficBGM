@@ -90,6 +90,7 @@ class PlayerClass
             public void onPrepared(MediaPlayer mp)
             {
                 mediaPlayer.start();
+                isPlaying=true;
             }
         });
         try
@@ -105,6 +106,7 @@ class PlayerClass
 
     void next()
     {
+        mediaPlayer.stop();
         if(songData.getSongOrder()[currentChapter+1][0]!=0) //check if it's a last chapter
         {
             if(songData.getSongOrder()[currentChapter][currentSong+1]!=0) //check if it's a last song in chapter
@@ -112,10 +114,10 @@ class PlayerClass
         }
         if(isPlaying)
         {
-            reset();
+            initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
             play();
         }
-        else reset();
+        else initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
     }
 
     void reset() //go to chapter 1 song 1
