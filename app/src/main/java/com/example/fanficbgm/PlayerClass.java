@@ -28,7 +28,7 @@ class PlayerClass
 
         nameTable = FileClass.loadSonglist(context); //list of all the songs in the directory
         songData = FileClass.loadSongOrder(context); //book title, chapter names, song order
-        //currentPosition = new byte[songData.getSongOrder().length][songData.getSongOrder()[0].length]; //wtf waas that lol //TODO: make it a truly a non-rectangular table
+        //currentPosition = new byte[songData.getSongOrder().length][songData.getSongOrder()[0].length]; //wtf was that lol //TODO: make it a truly a non-rectangular table
         currentChapter = 1;
         currentSong = 1;
         isPlaying = false;
@@ -102,22 +102,23 @@ class PlayerClass
         }
 //        mediaPlayer.prepare();
 //        mediaPlayer.start();
+
     }
 
     void next()
     {
         mediaPlayer.stop();
-        if(songData.getSongOrder()[currentChapter+1][0]!=0) //check if it's a last chapter
+        if (songData.getSongOrder()[currentChapter + 1][0] != 0) //check if it's a last chapter
         {
-            if(songData.getSongOrder()[currentChapter][currentSong+1]!=0) //check if it's a last song in chapter
+            if (songData.getSongOrder()[currentChapter][currentSong + 1] != 0) //check if it's a last song in chapter
                 currentSong++;
         }
-        if(isPlaying)
+
+        initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
+        if (isPlaying)
         {
-            initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
             play();
         }
-        else initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
     }
 
     void reset() //go to chapter 1 song 1
@@ -148,5 +149,29 @@ class PlayerClass
     void nextSong()
     {
 
+    }
+
+    void updateUI()
+    {
+        //textView1.setText("Title");
+    }
+
+    byte getCurrentChapter()
+    {
+        return currentChapter;
+    }
+
+    byte getCurrentSong()
+    {
+        return currentSong;
+    }
+    public byte getCurrentChapterName()
+    {
+        return currentChapter;
+    }
+
+    public byte getCurrentSongName()
+    {
+        return currentSong;
     }
 }
