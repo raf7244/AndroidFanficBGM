@@ -40,6 +40,11 @@ class FileClass
         String bookTitle = "";
         String[] chapterNames = new String[70];
         byte[][] songOrder = new byte[70][20]; //TODO: make it a truly a non-rectangular table
+        for(int x=0;x<70;x++)
+        {
+            for(int y=0;y<20;y++)
+                songOrder[x][y]=(byte)-1;
+        }
 
         try
         {
@@ -71,9 +76,9 @@ class FileClass
                         chapterNames[i] = lineFragments[0]; //set chapter name as the 1st thing read
                         //System.out.println("chapter name: " + lineFragments[0]);
                         lineFragmentFragments = lineFragments[1].trim().split(","); //split the second half
-                        for (int j = 1; j < lineFragmentFragments.length; j++) //for every line sub-element
+                        for (int j = 0; j < lineFragmentFragments.length; j++) //for every line sub-element
                         {
-                            songOrder[i][j] = Byte.parseByte(lineFragmentFragments[j]);
+                            songOrder[i][j+1] = Byte.parseByte(lineFragmentFragments[j]);
                             //System.out.println("Song order:" + lineFragmentFragments[j]);
                         }
                     }

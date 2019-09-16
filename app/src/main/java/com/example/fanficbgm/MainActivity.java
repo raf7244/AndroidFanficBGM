@@ -66,8 +66,9 @@ public class MainActivity extends AppCompatActivity
     void updateUI()
     {
         textView2.setText("echo!");
-    }
+
 //        textView2.setText("Chapter " + player.getCurrentChapter());
-//        textView3.setText("Song " + player.getCurrentSong());
-//    }
+        textView2.setText(player.getCurrentChapterName());
+        textView3.setText("Song " + player.getCurrentSong());
+    }
 }

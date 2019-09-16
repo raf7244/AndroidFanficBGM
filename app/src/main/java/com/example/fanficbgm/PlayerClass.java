@@ -29,11 +29,11 @@ class PlayerClass
         nameTable = FileClass.loadSonglist(context); //list of all the songs in the directory
         songData = FileClass.loadSongOrder(context); //book title, chapter names, song order
         //currentPosition = new byte[songData.getSongOrder().length][songData.getSongOrder()[0].length]; //wtf was that lol //TODO: make it a truly a non-rectangular table
-        currentChapter = 1;
+        currentChapter = 0;
         currentSong = 1;
         isPlaying = false;
 
-        initPlayer(8);
+        initPlayer(songData.getSongOrder()[currentChapter][currentSong]); //TODO: read song played last time
     }
 
     private void initPlayer(int songNr) //used at first run AND song changes
@@ -108,11 +108,25 @@ class PlayerClass
     void next()
     {
         mediaPlayer.stop();
-        if (songData.getSongOrder()[currentChapter + 1][0] != 0) //check if it's a last chapter
+        if (songData.getSongOrder()[currentChapter][currentSong + 1] != -1) //if it isn't the last song in a chapter
         {
-            if (songData.getSongOrder()[currentChapter][currentSong + 1] != 0) //check if it's a last song in chapter
-                currentSong++;
+            currentSong++;
         }
+        else //if it is the last song in a chapter
+        {
+            if (songData.getSongOrder()[currentChapter + 1][1] != 0-1) // if it's the last chapter
+            {
+                currentChapter++;
+                currentSong=1;
+            }
+            else //it's the last song of the last chapter, do nothing
+            {
+                System.out.print("Nothing left to play!");
+            }
+
+        }
+
+
 
         initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
         if (isPlaying)
@@ -165,12 +179,12 @@ class PlayerClass
     {
         return currentSong;
     }
-    public byte getCurrentChapterName()
+    String getCurrentChapterName()
     {
-        return currentChapter;
+        return songData.getChapterNames()[currentChapter];
     }
 
-    public byte getCurrentSongName()
+    byte getCurrentSongName()
     {
         return currentSong;
     }
