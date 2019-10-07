@@ -84,22 +84,43 @@ class PlayerClass
 
     void play()
     {
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+        if(songData.getSongOrder()[currentChapter][currentSong] == 0) //if the song is "no song", do nothing
         {
-            @Override
-            public void onPrepared(MediaPlayer mp)
-            {
-                mediaPlayer.start();
-                isPlaying=true;
-            }
-        });
-        try
-        {
-            mediaPlayer.prepare();
-        }catch (IOException e)
-        {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            initPlayer(songData.getSongOrder()[1][1]);
+//            play();
+            System.out.print("-no song playing, as intended-");
         }
+        else
+        {
+            if(isPlaying)
+            {
+                mediaPlayer.stop();
+                isPlaying=false;
+
+            }
+            else
+            {
+                initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
+                {
+                    @Override
+                    public void onPrepared(MediaPlayer mp)
+                    {
+                        mediaPlayer.start();
+                        isPlaying=true;
+                    }
+                });
+                try
+                {
+                    mediaPlayer.prepare();
+                }catch (IOException e)
+                {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+
 //        mediaPlayer.prepare();
 //        mediaPlayer.start();
 
@@ -108,27 +129,20 @@ class PlayerClass
     void next()
     {
         mediaPlayer.stop();
-        if (songData.getSongOrder()[currentChapter][currentSong + 1] != -1) //if it isn't the last song in a chapter
+        if (songData.getSongOrder()[currentChapter][currentSong + 1] != -1) //a standard situation
         {
             currentSong++;
         }
         else //if it is the last song in a chapter
         {
-            if (songData.getSongOrder()[currentChapter + 1][1] != 0-1) // if it's the last chapter
+            if (songData.getSongOrder()[currentChapter + 1][1] != -1) // if it's the last chapter
             {
                 currentChapter++;
                 currentSong=1;
             }
-            else //it's the last song of the last chapter, do nothing
-            {
-                System.out.print("Nothing left to play!");
-            }
-
         }
 
-
-
-        initPlayer(songData.getSongOrder()[currentChapter][currentSong]);
+        if(songData.getSongOrder()[currentChapter][currentSong]!=0)initPlayer(songData.getSongOrder()[currentChapter][currentSong]); //don't load anything if the song is null
         if (isPlaying)
         {
             play();
@@ -167,12 +181,12 @@ class PlayerClass
 
     void updateUI()
     {
-        //textView1.setText("Title");
+        //textView1.setText("Title"); //deprecated?
     }
 
     byte getCurrentChapter()
     {
-        return currentChapter;
+        return currentChapter; //deprecated?
     }
 
     byte getCurrentSong()
@@ -186,6 +200,6 @@ class PlayerClass
 
     byte getCurrentSongName()
     {
-        return currentSong;
+        return currentSong; //deprecated?
     }
 }
